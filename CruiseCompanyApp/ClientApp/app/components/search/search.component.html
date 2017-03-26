@@ -1,0 +1,32 @@
+﻿<h2>
+  Search bookings : <input [(ngModel)]="searchValue" type="text" name="name" value="" style="color:#ff6a00;" placeholder="Id or 2 chars min"  (change)="SearchBookings($event.target.value)">
+</h2>    
+<hr />
+
+<p *ngIf="loading"><em>Loading data please Wait ! ...</em></p>
+
+Search : {{searchValue}}
+Valid : {{ !notValid}}
+loading : {{loading}}
+
+<table class='table' style="background-color:#ECF3F4; border:2px #6D7B8D; padding:5px;width:99%;table-layout:fixed;" cellpadding="2" cellspacing="2" *ngIf="searchResults">
+
+  <tr style="height: 30px; background-color:#659EC7 ; color:#FFFFFF ;border: solid 1px #659EC7;">
+    <td width="60" align="left">BookingId</td>
+    <td width="60" align="left">Date</td>
+    <td width="140" align="center">ShipName</td>
+    <td width="120" align="center">Price</td>
+  </tr>
+
+  <tbody *ngFor="let SearchView  of searchResults">
+    <tr>
+      <td width="60" align="left">{{SearchView.bookingId}}</td>
+      <td width="120" align="center">{{SearchView.bookingDate}}</td>
+      <td width="140" align="center">{{SearchView.shipName}}</td>
+      <td width="60" align="right">{{SearchView.price}}</td>
+    </tr>
+
+  </tbody>
+</table>
+
+

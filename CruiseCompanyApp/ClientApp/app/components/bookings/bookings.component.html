@@ -1,0 +1,74 @@
+﻿<h1>Dreamlines GmBH ~ sales for Q{{quarter}} 2016.</h1>
+<hr />
+<h2>
+  Filter by quarter: <select [(ngModel)]="quarter" style="color:#ff6a00;" (change)="selectItem($event.target.value)">
+  <option value="0">ALL</option>
+  <option value="1" selected>Q1</option>
+  <option value="2">Q2</option>
+  <option value="3">Q3</option>
+  <option value="4">Q4</option>
+</select>
+</h2>    
+<hr />
+
+<p *ngIf="!bookingsList"><em>Loading data please Wait ! ...</em></p>
+
+Row: {{activeRow}}
+quarter: {{quarter}}
+unfolded: {{ !unfolded}}
+<table class='table' style="background-color:#FFFFFF; border:2px #6D7B8D; padding:5px;width:99%;table-layout:fixed;" cellpadding="2" cellspacing="2" *ngIf="bookingsList">
+
+  <tr style="height: 30px; background-color:#336699 ; color:#FFFFFF ;border: solid 1px #659EC7;">
+    <td width="100" align="center"></td>
+    <td width="240" align="center">Name</td>
+    <td width="240" align="center">Country</td>
+    <td width="120" align="center">Total</td>
+  </tr>
+
+  <tbody *ngFor="let saleUnit of bookingsList">
+    <tr>
+      <td align="center" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+        <button  (click)=getBookingsBySaleUnit(saleUnit.id,quarter) style="background-color:#334668;color:#FFFFFF;font-size:small;width:80px;border-color:#a2aabe;">
+          Details
+        </button>
+      </td>
+
+      <td align="left" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+        <span style="color:#334668;font-size:medium"><a href="http:\\{{saleUnit.name}}" target="_blank">{{saleUnit.name}}</a></span>
+      </td>
+     
+      <td align="left" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+        <span style="color:#334668;font-size:medium"><img src="{{getCountryFlag(saleUnit.country)}}" width="20" /> {{saleUnit.country}}</span>
+      </td>
+
+      <td align="right" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+        <span style="color:#334668;font-size:medium">{{saleUnit.currency}} {{saleUnit.total }}</span>
+      </td>
+    </tr>
+
+    <tr *ngIf="(activeRow==saleUnit.id)  && !unfolded">
+      <td colspan="6" style="border: solid 1px #659EC7; padding: 5px;table-layout:fixed;">
+        <table class='table' style="background-color:#ECF3F4; border:2px #6D7B8D; padding:5px;width:99%;table-layout:fixed;" cellpadding="2" cellspacing="2" *ngIf="bookingDetails">
+          <tr style="height: 30px; background-color:#659EC7 ; color:#FFFFFF ;border: solid 1px #659EC7;">
+            <td width="40" align="left"><Strong>Detail --></Strong>   </td>
+            <td width="60" align="left">BookingId</td>
+            <td width="140" align="center">ShipName</td>
+            <td width="120" align="center">Price</td>
+          </tr>
+
+          <tbody *ngFor="let booking  of bookingDetails">
+            <tr>
+              <td width="40" align="left"></td>
+              <td width="60" align="left">{{booking.bookingId}}</td>
+              <td width="140" align="center">{{booking.shipName}}</td>
+              <td width="120" align="center">{{booking.currency}} {{booking.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+
+  </tbody>
+</table> 
+
+ 
