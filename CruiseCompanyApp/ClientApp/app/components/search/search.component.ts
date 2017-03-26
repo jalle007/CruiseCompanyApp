@@ -3,8 +3,8 @@ import { Http, Response, Headers, RequestOptions, URLSearchParams } from "@angul
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-    selector: 'search',
-    template: require('./search.component.html')
+  selector: 'search',
+  template: require('./search.component.html')
 })
 
 export class searchComponent {
@@ -18,7 +18,7 @@ export class searchComponent {
 
   SearchBookings(searchValue) {
     this.notValid = isNaN(searchValue) && searchValue.length < 2 || searchValue == "";
-   // console.log(notValid);
+    // console.log(notValid);
     if (this.notValid) {
       this.searchResults = [];
       return;
@@ -27,11 +27,11 @@ export class searchComponent {
     this.loading = true;
     this.http.get('/api/searchbookings/' + searchValue).subscribe(
       result => {
-          //console.log("result", result.json() );
-          this.searchResults = result.json();
-          this.loading = false;
-        }
-      );
+        //console.log("result", result.json() );
+        this.searchResults = result.json();
+        this.loading = false;
+      }
+    );
   }
 
   getCountryFlag(country) {
@@ -41,7 +41,7 @@ export class searchComponent {
     if (index != -1)
       return url + countries[index + 1] + ".png";
     else
-        return "#";
+      return "#";
   }
 
 }
@@ -53,4 +53,3 @@ export interface SearchView {
   bookingDate: string;
   price: number;
 }
- 

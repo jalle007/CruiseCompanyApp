@@ -3,16 +3,16 @@ import { Http, Response, Headers, RequestOptions, URLSearchParams } from "@angul
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-    selector: 'bookings',
-    template: require('./bookings.component.html')
+  selector: 'bookings',
+  template: require('./bookings.component.html')
 })
 
 export class bookingsComponent {
-  public quarter: number ;
+  public quarter: number;
   public JSONModel: JSONModel;
   public bookingsList: SalesView[] = [];
   public bookingDetails: SalesDetailView[] = [];
-  public activeRow: string ="0"  ;
+  public activeRow: string = "0";
   public unfolded: boolean;
 
   constructor(public http: Http) {
@@ -30,17 +30,17 @@ export class bookingsComponent {
   getBookings() {
     this.http.get('/api/bookings/' + this.quarter).subscribe(
       result => {
-          this.bookingsList = result.json();
-        }
-      );
+        this.bookingsList = result.json();
+      }
+    );
   }
 
   getBookingsBySaleUnit(saleUnit, qtr) {
-    //alert("saleUnit:" + saleUnit + " quarter " + qtr);
+    //console.log("saleUnit:" + saleUnit + " quarter " + qtr);
     if (this.activeRow == saleUnit) {
       this.unfolded = !this.unfolded;
       return;
-    } else { this.unfolded = false;}
+    } else { this.unfolded = false; }
 
     this.http.get('/api/bookings/' + saleUnit + '/' + qtr).subscribe(result => {
       this.bookingDetails = result.json();
@@ -56,11 +56,11 @@ export class bookingsComponent {
     if (index != -1)
       return url + countries[index + 1] + ".png";
     else
-        return "#";
+      return "#";
   }
 }
 
- 
+
 export interface SalesView {
   Id: number;
   Name: string;
@@ -98,47 +98,6 @@ export interface JSONModel {
   salesUnits: SalesUnit[];
   ships: Ship[];
   bookings: Booking[];
-}
-
- 
-
-//export class bookingsComponent2 {
-//    public student: StudentMasters[] = [];
-//    public studentdetails: StudentDetails[] = [];
-//    myName: string;
-//    activeRow: string = "0";
-//    constructor(public http: Http) {
-//        this.myName = "Jalle";
-//        this.getStudentMasterData();
-//    }
-//    getStudentMasterData() {
-//        this.http.get('/api/StudentMastersAPI/Student').subscribe(result => {
-//            this.student = result.json();
-//        });
-//    }
-//    getbookingsDetails(StudID) {
-//        this.http.get('/api/StudentMastersAPI/Details/' + StudID).subscribe(result => {
-//            this.studentdetails = result.json();
-//        });
-//        this.activeRow = StudID; 
-//    }
-//}
-//// For Student Master
-export interface StudentMasters {
-    stdID: number;
-    stdName: string;
-    email: string;
-    phone: string;
-    address: string;
-}
-// For Student Details
-export interface StudentDetails {
-    StdDtlID: number;
-    stdID: number;
-    Major: string;
-    Year: string;
-    Term: string;
-    Grade: string;
 }
 
 //@Pipe({ name: 'round' })

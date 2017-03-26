@@ -1,6 +1,7 @@
 ﻿<h2>
-  Search bookings : <input [(ngModel)]="searchValue" type="text" name="name" value="" style="color:#ff6a00;" placeholder="Id or 2 chars min"  (change)="SearchBookings($event.target.value)">
-</h2>    
+  Search bookings : <input [(ngModel)]="searchValue" type="text" name="name" value="" style="color:#ff6a00;" placeholder="Id or 2 chars min" (change)="SearchBookings($event.target.value)">
+  <input type="button" name="name" value="Go" />
+</h2>
 <hr />
 
 <p *ngIf="loading"><em>Loading data please Wait ! ...</em></p>

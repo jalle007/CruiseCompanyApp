@@ -208,7 +208,7 @@
 --resource:"d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\obj\Debug\netcoreapp1.0\CruiseCompanyAppdotnet-compile.deps.json",CruiseCompanyApp.deps.json
 d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\Program.cs
 d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\Startup.cs
-d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\Controllers\BookingsAPI.cs
+d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\Api\BookingsAPI.cs
 d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\Controllers\HomeController.cs
 d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\Models\JSONModel.cs
 d:\Projects\temp\Solution\MasterDetail\CruiseCompanyApp\CruiseCompanyApp\Models\ViewModels.cs

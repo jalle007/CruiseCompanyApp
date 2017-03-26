@@ -13,7 +13,7 @@ namespace CruiseCompanyApp.Controllers {
   public class BookingsAPI : Controller {
     private IHostingEnvironment _env;
     public JSONModel jsonData;
-    public BookingsAPI ( IHostingEnvironment env) {
+    public BookingsAPI (IHostingEnvironment env) {
       _env = env;
       ReadJSON();
       }
@@ -24,11 +24,11 @@ namespace CruiseCompanyApp.Controllers {
       var quarterBookings = BookingsByQuarter(quarter);
 
       var subQuery1 = from qb in quarterBookings
-                group qb by qb.shipId into shipBookings
-                select new {
-                  ShipKey = shipBookings.Key,
-                  Sum = shipBookings.Sum(p => p.price)
-                  };
+                      group qb by qb.shipId into shipBookings
+                      select new {
+                        ShipKey = shipBookings.Key,
+                        Sum = shipBookings.Sum(p => p.price)
+                        };
 
       var shipSum = from emp in jsonData.ships
                     join s in subQuery1 on emp.id equals s.ShipKey
@@ -42,20 +42,20 @@ namespace CruiseCompanyApp.Controllers {
                       };
 
       var subQuery2 = from s in shipSum
-                   group s by s.Country
+                      group s by s.Country
                         into res
-                   select new SalesView {
-                     Id = res.FirstOrDefault().Id,
-                     Name = res.FirstOrDefault().Name,
-                     Country = res.FirstOrDefault().Country,
-                     Total = (float)Math.Round(res.Sum(r => r.Total)),
-                     Currency = res.FirstOrDefault().Currency
-                     };
+                      select new SalesView {
+                        Id = res.FirstOrDefault().Id,
+                        Name = res.FirstOrDefault().Name,
+                        Country = res.FirstOrDefault().Country,
+                        Total = (float)Math.Round(res.Sum(r => r.Total)),
+                        Currency = res.FirstOrDefault().Currency
+                        };
 
       var salesViewList = subQuery2.OrderByDescending(c => c.Total).ToList();
       return salesViewList;
       }
-    
+
     //Details
     [Route("bookings/{saleUnit}/{quarter}")]
     public List<SalesDetailView> BookingsBySaleUnit (int saleUnit, int quarter) {
@@ -66,64 +66,62 @@ namespace CruiseCompanyApp.Controllers {
                             select s;
 
       var shipSum = (from b in quarterBookings
-                    join s in shipsBySaleUnit on b.shipId equals s.id
-                    select new SalesDetailView {
-                      BookingId = b.id,
-                      ShipName = s.name,
-                      Price = b.price,
-                      Currency = currency
-                      }).ToList();
+                     join s in shipsBySaleUnit on b.shipId equals s.id
+                     select new SalesDetailView {
+                       BookingId = b.id,
+                       ShipName = s.name,
+                       Price = b.price,
+                       Currency = currency
+                       }).ToList();
 
       return shipSum;
       }
 
     // Filter by bookingId or  shipname 
     [Route("searchbookings/{searchValue}")]
-    public List<SearchView> SearchBookings(string searchValue) {
+    public List<SearchView> SearchBookings (string searchValue) {
       IEnumerable<SearchView> searchResults = null;
       IEnumerable<Booking> bookings = null;
-      int max=1000; //we have to limit search here becaseu of performance 
       int id;
       bool isNumeric = int.TryParse(searchValue, out id);
 
-      
+
       if (isNumeric)
-        bookings = jsonData.bookings.Where(b=>b.id==id);
+        bookings = jsonData.bookings.Where(b => b.id == id);
 
       else {
-        var getShipIds= jsonData.ships.Where(s=>s.name.ToLower().StartsWith(searchValue.ToLower()));
-        bookings = from booking in jsonData.bookings where getShipIds.Select(s=>s.id).Contains(booking.shipId) select booking;
+        var getShipIds = jsonData.ships.Where(s => s.name.ToLower().StartsWith(searchValue.ToLower()));
+        bookings = from booking in jsonData.bookings where getShipIds.Select(s => s.id).Contains(booking.shipId) select booking;
         }
-        searchResults = from ship in jsonData.ships
-                    join b in bookings on ship.id equals b.shipId
-                    select new SearchView {
-                      BookingId = b.id,
-                      ShipName=ship.name,
-                      BookingDate=DateTime.Parse( b.bookingDate).ToString("yyyy-MM-dd"),
-                      Price=b.price
-                      };
-      //  var x= searchResults.Take(10).ToList();
+      searchResults = from ship in jsonData.ships
+                      join b in bookings on ship.id equals b.shipId
+                      select new SearchView {
+                        BookingId = b.id,
+                        ShipName = ship.name,
+                        BookingDate = DateTime.Parse(b.bookingDate).ToString("yyyy-MM-dd"),
+                        Price = b.price
+                        };
       return searchResults.ToList();
       }
 
     // Filter bookisng by quarter (0 for all)
     public List<Booking> BookingsByQuarter (int quarter) {
-    //  ReadJSON();
+      //  ReadJSON();
       int fromMonth = quarter * 3 - 3;
       int toMonth = quarter * 3;
       List<Booking> res = null;
-      
-      if(quarter==0)
-          res = jsonData.bookings.ToList();
+
+      if (quarter == 0)
+        res = jsonData.bookings.ToList();
       else {
-          res = (from b in jsonData.bookings
-                 where
-                           Convert.ToDateTime(b.bookingDate).Year == 2016 &&
-                           Convert.ToDateTime(b.bookingDate).Month > fromMonth &&
-                           Convert.ToDateTime(b.bookingDate).Month <= toMonth
-                 select b).ToList();
+        res = (from b in jsonData.bookings
+               where
+                         Convert.ToDateTime(b.bookingDate).Year == 2016 &&
+                         Convert.ToDateTime(b.bookingDate).Month > fromMonth &&
+                         Convert.ToDateTime(b.bookingDate).Month <= toMonth
+               select b).ToList();
         }
-        return res;
+      return res;
       }
 
     private void ReadJSON () {
