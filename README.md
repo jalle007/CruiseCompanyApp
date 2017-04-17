@@ -2,7 +2,7 @@
 
 The app demonstrates:
 *   Working with JSON as datasource
-*   Creating MAster-Details form with search field
+*   Creating Master-Details form with search option
 
 The application consist of two parts:
 *   Backend: RESTful API written in .NET Core
