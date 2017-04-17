@@ -8,3 +8,4 @@ The application consist of two parts:
 *   Backend: RESTful API written in .NET Core
 *   Frontend: SPA written in Angular 2
  
+Demo: http://cruisecompany.apphb.com
